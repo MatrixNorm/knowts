@@ -36,14 +36,16 @@ vboxguest 303104 2 vboxsf
 
 ### terminal resolution
 
-???
+>sudo vim /etc/default/grub
+GRUB_GFXMODE=1600x1200
+GRUB_CMDLINE_LINUX_DEFAULT="nomodeset"
+GRUB_GFXPAYLOAD_LINUX=keep
+>sudo update-grub
+>sudo shutdown -r now
 
 ### copy file between host and guest
 
 Error:
 >sudo mount -t vboxsf shared ~/shared 
-<<</sbin/mount.vboxsf: mounting failed with the error: No such device
+<<</sbin/mount.vboxsf: mounting failed with the error: Protocol error
 
-Troubleshooting:
->sudo modprobe vboxsf
-<<<modprobe: FATAL: Module vboxsf not found in directory /lib/modules/4.15.0-173-generic
