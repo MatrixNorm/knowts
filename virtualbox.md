@@ -45,7 +45,11 @@ GRUB_GFXPAYLOAD_LINUX=keep
 
 ### copy file between host and guest
 
-Error:
->sudo mount -t vboxsf shared ~/shared 
-<<</sbin/mount.vboxsf: mounting failed with the error: Protocol error
-
+>sudo mount -t vboxsf shared ~/node-projects/
+по какой-то странной причине названия директорий должны быть разные
+ПРОБЛЕМА: эта команда меняет хозяина папки ~/node-projects на рута.
+>sudo mount -t vboxsf -o uid=1000,gid=1000 shared ~/node-projects/
+make it persistent between reboots
+/etc/fstab:
+<file system>  <mount point>             <type>  <options>          <dump>  <pass>
+shared         /home/kyky/node-projects  vboxsf  uid=1000,gid=1000  0       0
