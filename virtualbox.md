@@ -5,15 +5,21 @@
 
 Network: bridge adapter
 
-### ssh server
+### ssh
 
-Error while trying to ssh into VM:
+Install ssh server on guest machine
+
+=== Error while trying to ssh into VM:
 >ssh monkey@192.168.0.185 
 <<<Connection reset by 192.168.0.185 port 22
-
 FIX:
 >ssh-keygen -A
 >systemctl restart sshd
+
+=== How to ssh without password
+1. on guest create file ~/.ssh/authorized_keys
+2. on host cd into ~/.ssh and then
+>ssh-copy-id kyky@192.168.0.177
 
 ### guest addition 
 
@@ -43,7 +49,7 @@ GRUB_GFXPAYLOAD_LINUX=keep
 >sudo update-grub
 >sudo shutdown -r now
 
-### copy file between host and guest
+### share folder between host and guest
 
 >sudo mount -t vboxsf shared ~/node-projects/
 по какой-то странной причине названия директорий должны быть разные
