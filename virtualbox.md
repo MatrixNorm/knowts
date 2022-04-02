@@ -155,12 +155,12 @@ YN0001: │ Error: While persisting /home/kyky/node-projects/react/scripts/eslin
 
 Issue: https://github.com/yarnpkg/yarn/issues/929
 
-### Huge problem with git
+### Problem with git
 
 ```
 error: object file .git/objects/28/60d18ec528bb3476e958ce19b7acc45ad44ed0 is empty
 error: object file .git/objects/28/60d18ec528bb3476e958ce19b7acc45ad44ed0 is empty
 fatal: loose object 2860d18ec528bb3476e958ce19b7acc45ad44ed0 (stored in .git/objects/28/60d18ec528bb3476e958ce19b7acc45ad44ed0) is corrupt
 ```
+Happens if VM was powered off without proper halting of the system. 
 
-happens after shutdown and restarting VM
