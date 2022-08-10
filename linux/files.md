@@ -15,3 +15,10 @@ $umask
 >002
 
 **Subtracting umask from base permission would give you actual file permissions.** All the files will be created with 664 (666-002) permissions and dir with 775 (777-002) permissions.
+
+## list all directories sizes in a current directory
+
+$du -h --max-depth=1 | sort -nr
+
+with files as well
+$du -ah --max-depth=1 | sort -nr
