@@ -368,7 +368,7 @@ sdc
 >sudo mkfs.ext4 /dev/sdc1
 >lsblk -f | grep sdc
 ```
-sdc                                                        
+sdc                          
 └─sdc1 ext4  53ced694-...
 ```
 
@@ -383,11 +383,38 @@ drwxr-xr-x  2 me me 4096 сен 16 21:15 ssd1
 >sudo mount /dev/sdc1 /mnt/ssd1
 >lsblk -f | grep sdc       
 ```
-sdc                                                        
+sdc                                  
 └─sdc1 ext4 53ced694-... /mnt/ssd1
 ```
 
 >df -h | grep sdc
 ```
 /dev/sdc1       117G   61M  111G   1% /mnt/ssd1
+```
+
+# /etc/fstab
+
+>lsblk -f | grep sdc
+```
+sdc                           
+└─sdc1 ext4  53ced694-...
+```
+>sudo vim /etc/fstab
+```
+UUID=53ced694-a728-46c7-9ca8-9d423054bf1f /mnt/ssd1 ext4 defaults 0 2
+```
+>sudo mount /mnt/ssd1
+>lsblk -f | grep sdc       
+```
+sdc
+└─sdc1 ext4 53ced694-... /mnt/ssd1
+```
+
+>sudo blkid | grep -v loop
+```
+/dev/sda1: UUID="1E86-1FD7" TYPE="vfat" PARTUUID="5307826d-..."
+/dev/sda2: UUID="b8ce0513-..." TYPE="ext4" PARTUUID="96579937-..."
+/dev/sdb1: UUID="5df085a3-..." TYPE="ext4" PARTUUID="fc4d9008-..."
+/dev/sdb2: UUID="2ec5d4b1-..." TYPE="swap" PARTUUID="814edc7c-..."
+/dev/sdc1: UUID="53ced694-..." TYPE="ext4" PARTUUID="98880d53-..."
 ```
