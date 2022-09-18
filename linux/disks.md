@@ -396,7 +396,7 @@ sdc
 
 >lsblk -f | grep sdc
 ```
-sdc                           
+sdc  
 └─sdc1 ext4  53ced694-...
 ```
 >sudo vim /etc/fstab
