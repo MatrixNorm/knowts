@@ -8,6 +8,16 @@
 
 ## Install qemu, kvm virtualization stuff
 
+```shell
+~$ sudo apt-get install qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils
+~$ sudo apt-get install virtinst virt-manager
+```
+
+```shell
+~$ sudo adduser me kvm
+~$ grep kvm /etc/group
+```
+
 
 ## Add android system image to AS
 
