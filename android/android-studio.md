@@ -34,3 +34,7 @@ In latest versions of AS there is no image for Android 9.0 Google X86_ARM. How t
 Android 9
 
 Single Android version may correspond to one or many API versions, e.g. Android 9 (API level 28) or Android 12 (API levels 31, 32).
+
+## Android Debug Bridge (ADB)
+
+Located at `../SDK/platform-tools/adb`
