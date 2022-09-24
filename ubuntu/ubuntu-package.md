@@ -48,3 +48,9 @@ Bugs: https://bugs.launchpad.net/ubuntu/+filebug
 Installed-Size: 1988
 Depends: libapparmor1 (>= 2.6~devel), libc6 (>= 2.17), libreadline7 (>= 6.0), libvirt0 (= 4.0.0-1ubuntu8.21), libxml2 (>= 2.7.4)
 ```
+
+## Download package without installation
+
+```
+~$apt-get download python3-venv
+```
