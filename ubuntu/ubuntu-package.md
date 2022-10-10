@@ -1,7 +1,8 @@
 ## How can I check the available version of a package in the repositories?
 
->apt-cache policy fish
 ```
+>apt-cache policy fish
+
 fish:
   Installed: (none)
   Candidate: 3.5.1-1~bionic
@@ -14,12 +15,15 @@ fish:
 
 ## How do I check if a package is installed
 
->dpkg -s qemu-kvm
 ```
+>dpkg -s qemu-kvm
+
 dpkg-query: package 'qemu' is not installed and no information is available
 ```
->dpkg -s redshift
+
 ```
+>dpkg -s redshift
+
 Package: redshift
 Status: install ok installed
 Priority: extra
@@ -33,8 +37,9 @@ Depends: libc6 (>= 2.17), libdrm2 (>= 2.4.3), libglib2.0-0 (>= 2.26.0), libx11-6
 
 ## Get package info
 
->apt-cache show libvirt-clients
 ```
+>apt-cache show libvirt-clients
+
 Package: libvirt-clients
 Architecture: amd64
 Version: 4.0.0-1ubuntu8.21
@@ -52,5 +57,5 @@ Depends: libapparmor1 (>= 2.6~devel), libc6 (>= 2.17), libreadline7 (>= 6.0), li
 ## Download package without installation
 
 ```
-~$apt-get download python3-venv
+>apt-get download python3-venv
 ```
