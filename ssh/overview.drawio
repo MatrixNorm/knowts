@@ -1,0 +1,28 @@
+<mxfile host="65bd71144e">
+    <diagram id="1dsmiNZ1ncj6v_Yoalx3" name="Page-1">
+        <mxGraphModel dx="876" dy="520" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="3" value="machine A" style="swimlane;" vertex="1" parent="1">
+                    <mxGeometry x="410" y="120" width="140" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="4" value="SSH server&lt;br&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="3">
+                    <mxGeometry x="30" y="40" width="80" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" value="machine B" style="swimlane;" vertex="1" parent="1">
+                    <mxGeometry x="110" y="120" width="150" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="6" value="SSH client&amp;nbsp;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="5">
+                    <mxGeometry x="30" y="50" width="70" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="7" value="SSH&lt;br&gt;protocol" style="endArrow=classic;html=1;" edge="1" parent="1" source="6" target="4">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="420" y="290" as="sourcePoint"/>
+                        <mxPoint x="470" y="240" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
