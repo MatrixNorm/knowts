@@ -4,4 +4,3 @@
 ```
 > GIT_SSH_COMMAND="ssh -vvv" git push
 ```
-

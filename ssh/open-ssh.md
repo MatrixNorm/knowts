@@ -69,3 +69,17 @@ github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okW
 > ssh-keygen -lf /tmp/key.pub
 256 SHA256:p2QAMXNIC1TJYWeIOttrVc98/R1BUFWu3/LiyKgUfQM github.com (ECDSA)
 ```
+
+# ~/.ssh folder permissions
+
+* .ssh directory: 700 (drwx------)
+* public key (.pub file): 644 (-rw-r--r--)
+* private key (id_rsa): 600 (-rw-------)
+
+# Misc
+
+Attemp to ssh to sever that does not provide shell access.
+
+```bash
+> ssh -Tv git@github.com
+```
