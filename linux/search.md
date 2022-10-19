@@ -1,3 +1,5 @@
+# grep
+
 ### искать только в файлах текущей директории, без рекурсии
 ```bash
 grep * .* -e 'cargo' -d skip --exclude=.zsh_history

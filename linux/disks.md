@@ -1,7 +1,9 @@
 # Detecting disks
 
->lsblk
-```
+
+```bash
+> lsblk
+
 NAME   MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
 sda      8:0    0 238,5G  0 disk 
 ├─sda1   8:1    0   487M  0 part /boot/efi
@@ -15,8 +17,9 @@ sdc      8:32   0 119,2G  0 disk
 └─sdc3   8:35   0   3,9G  0 part
 ```
 
->lsblk -f
-```
+```bash
+> lsblk -f
+
 NAME   FSTYPE UUID             MOUNTPOINT
 sda                         
 ├─sda1 vfat   1E86-1FD7        /boot/efi
@@ -30,8 +33,10 @@ sdc
 └─sdc3 swap   4f1b9944-1a27...
 ```
 
+
+```bash
 >sudo lshw -class disk
-```
+
 *-disk                    
   description: ATA Disk
   product: ADATA SU800
@@ -77,8 +82,9 @@ sdc
                  sectorsize=512
 ```
 
+```bash
 >sudo fdisk -l
-```
+
 Disk /dev/sda: 238,5 GiB, 256060514304 bytes, 500118192 sectors
 Units: sectors of 1 * 512 = 512 bytes
 Sector size (logical/physical): 512 bytes / 512 bytes
@@ -114,8 +120,9 @@ Device         Start       End   Sectors   Size Type
 /dev/sdc3  241917952 250068991   8151040   3,9G Linux swap
 ```
 
+```shell
 >hwinfo --disk
-```
+
 IDE 100.0: 10600 Disk                                       
 [Created at block.245]
 Unique ID: WZeP.dCMeGm1lvW1
@@ -181,8 +188,9 @@ Config Status: cfg=new, avail=yes, need=no, active=unknown
 Attached to: #17 (SATA controller)
 ```
 
+```bash
 >tree /dev/disk/
-```
+
 /dev/disk/
 ├── by-id
 │   ├── ata-ADATA_SU800_2H0720013312 -> ../../sda
@@ -232,8 +240,9 @@ Attached to: #17 (SATA controller)
     └── DFCC-033F -> ../../sdc1
 ```
 
+```bash
 >cat /etc/fstab
-```
+
 # <file system> <mount point>   <type>  <options>       <dump>  <pass>
 
 # / was on /dev/sda2 during installation
@@ -251,14 +260,21 @@ UUID=2ec5d4b1-31cb-4a63-9dad-2970697e5137 none            swap    sw            
 
 # Mount
 
->mount | grep ^/dev
+```bash
+> mount | grep ^/dev
 
-* /dev/sda2 on / type ext4 (rw,noatime,errors=remount-ro)
-* /dev/sda1 on /boot/efi type vfat (rw,relatime,fmask=0077,dmask=0077,codepage=437,iocharset=iso8859-1,shortname=mixed,errors=remount-ro)
-* /dev/sdb1 on /mnt/hdd type ext4 (rw,relatime)
+/dev/sda2 on / type ext4 (rw,noatime,errors=remount-ro)
 
->sudo fdisk /dev/sdc
+/dev/sdc1 on /mnt/ssd1 type ext4 (rw,relatime)
+
+/dev/sda1 on /boot/efi type vfat (rw,relatime,fmask=0077,dmask=0077,codepage=437,iocharset=iso8859-1,shortname=mixed,errors=remount-ro)
+
+/dev/sdb1 on /mnt/hdd type ext4 (rw,relatime)
 ```
+
+```shell
+> sudo fdisk /dev/sdc
+
 Welcome to fdisk (util-linux 2.31.1).
 Changes will remain in memory only, until you decide to write them.
 Be careful before using the write command.
@@ -352,66 +368,81 @@ Calling ioctl() to re-read partition table.
 Syncing disks.
 >
 ```
->lsblk -f | grep -v loop
-```
+
+```shell
+> lsblk -f | grep -v loop
+
 NAME   FSTYPE  UUID MOUNTPOINT
 sda                                                        
 ├─sda1 vfat 1E86-1FD7    /boot/efi
 └─sda2 ext4 b8ce0513-... /
+
 sdb                                                      
 ├─sdb1 ext4 5df085a3-... /mnt/hdd
 └─sdb2 swap 2ec5d4b1-... [SWAP]
+
 sdc                                                        
 └─sdc1
 ```
 
+```shell
 >sudo mkfs.ext4 /dev/sdc1
 >lsblk -f | grep sdc
-```
+
 sdc                          
 └─sdc1 ext4  53ced694-...
 ```
 
+```shell
 >sudo mkdir /mnt/ssd1
 >ls -l /mnt
 >sudo chown -R me:me /mnt/ssd1
-```
+
 drwxr-xr-x 20 me me 4096 сен 10 23:38 hdd
 drwxr-xr-x  2 me me 4096 сен 16 21:15 ssd1
 ```
 
+```shell
 >sudo mount /dev/sdc1 /mnt/ssd1
->lsblk -f | grep sdc       
-```
+>lsblk -f | grep sdc  
+
 sdc                                  
 └─sdc1 ext4 53ced694-... /mnt/ssd1
 ```
 
+```shell
 >df -h | grep sdc
-```
+
 /dev/sdc1       117G   61M  111G   1% /mnt/ssd1
 ```
 
 # /etc/fstab
 
+```shell
 >lsblk -f | grep sdc
-```
+
 sdc  
 └─sdc1 ext4  53ced694-...
 ```
+
+```bash
 >sudo vim /etc/fstab
-```
+
 UUID=53ced694-a728-46c7-9ca8-9d423054bf1f /mnt/ssd1 ext4 defaults 0 2
 ```
+
+```shell
 >sudo mount /mnt/ssd1
 >lsblk -f | grep sdc       
-```
+
+
 sdc
 └─sdc1 ext4 53ced694-... /mnt/ssd1
 ```
 
+```shell
 >sudo blkid | grep -v loop
-```
+
 /dev/sda1: UUID="1E86-1FD7" TYPE="vfat" PARTUUID="5307826d-..."
 /dev/sda2: UUID="b8ce0513-..." TYPE="ext4" PARTUUID="96579937-..."
 /dev/sdb1: UUID="5df085a3-..." TYPE="ext4" PARTUUID="fc4d9008-..."
