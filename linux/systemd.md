@@ -6,7 +6,7 @@
 > any resource sytemd knows how to operate on and manage
 
 List available unit types:
-```zsh
+```shell
 > systemctl -t help
 
 service: ssh, web-server (apache, nginx)
@@ -24,18 +24,19 @@ scope
 
 ### list all loaded services
 
-```zsh
+```shell
 > systemctl list-units --type=service
 ```
 or
 
-```zsh
+```shell
 > systemctl --type=service
 ```
 
 ### get service status
 ```bash
-> systemctl status libvirtd 
+> systemctl status libvirtd
+
 ● libvirtd.service - Virtualization daemon
    Loaded: loaded (/lib/systemd/system/libvirtd.service; enabled; vendor preset: enabled)
    # an enabled unit will start at boot
@@ -53,7 +54,7 @@ or
 
 ### a way to determine the systemd unit that caused the creation of a specific process
 
-```bash
+```shell
 > ps -ef | grep libvirtd
 root      1242     1  0 06:57 ?        00:00:00 /usr/sbin/libvirtd
 
@@ -64,11 +65,10 @@ root      1242     1  0 06:57 ?        00:00:00 /usr/sbin/libvirtd
    ...
 ```
 
-
 ### view service unit file
 
-```zsh
->  systemctl cat libvirtd
+```shell
+>systemctl cat libvirtd
 ```
 
 ```
