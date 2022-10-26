@@ -1,7 +1,9 @@
 
 Check if CPU supports virtualization:
-```
-egrep -c '(vmx|svm)' /proc/cpuinfo
+```shell
+>egrep -c '(vmx|svm)' /proc/cpuinfo
+
+>lscpu | grep Virtualization
 ```
 
 # libvirt 
@@ -36,19 +38,24 @@ And in computer virtualization, a domain (virtual machine) is a subset of hardwa
 
 source: https://unix.stackexchange.com/a/614098
 
-## virsh commands
+### List all VMs (none at first)
 
-List of all VMs (none at first)
-```bash
+```shell
 > virsh list --all
 
 Id    Name              State
 ----------------------------------
 ```
 
+### List storage pools
 
-List storage pools
-```bash
+A storage pool is a quantity of storage set aside by an administrator for use by virtual machines. Storage pools are divided into storage volumes, and the volumes are assigned to VMs as block devices.
+
+Materials:
+
+* https://www.youtube.com/watch?v=KEG2S3yiZcE
+
+```shell
 > virsh pool-list
 
 Name                 State      Autostart 
@@ -62,8 +69,22 @@ View the storage pool information
 ```bash
 ```
 
-A storage pool is a quantity of storage set aside by an administrator for use by virtual machines. Storage pools are divided into storage volumes, and the volumes are assigned to VMs as block devices.
+
 
 ### libvirt VM image store path
 
 VM images are stored in /var/lib/libvirt/images directory by default.
+
+### Convert VM from VirtualBox to Qemu
+
+```shell
+> qemu-img convert -f vpc -O qcow2 /mnt/ssd1/VirtualBoxVMs/win10/win10.vhd /mnt/ssd1/QemuVMs/win10.qcow2
+```
+
+Then in Virtual Machine Manager:
+
+> File > New Virtual Machine > Import Existing Disk Image
+
+### Slow Windows 10 VM
+
+https://leduccc.medium.com/improving-the-performance-of-a-windows-10-guest-on-qemu-a5b3f54d9cf5

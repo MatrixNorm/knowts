@@ -1,4 +1,9 @@
 
+### Get all groups an user belongs to
+```shell
+>id user_name
+```
+
 To check which users are in the kvm group, use
 >grep kvm /etc/group
 kvm:x:135:
