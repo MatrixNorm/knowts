@@ -24,13 +24,20 @@ scope
 
 ### list all loaded services
 
-```shell
-> systemctl list-units --type=service
-```
-or
+List units that systemd currently has in memory. This includes units that are either referenced directly or through a dependency, units that are pinned by applications programmatically, or units that were active in the past and have failed.
 
-```shell
-> systemctl --type=service
+```bash
+>systemctl list-units --type=service
+# or
+>systemctl --type=service
+```
+
+When listing units with list-units, also show inactive units and units which are following other units.
+
+```bash
+>systemctl list-units --type=service --all
+# or
+>systemctl --type=service --all
 ```
 
 ### get service status

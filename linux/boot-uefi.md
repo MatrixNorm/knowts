@@ -4,12 +4,14 @@ The BIOS is a firmware that comes with the motherboard. The BIOS instructions ar
 
 CMOS chip stores user's settings. CMOS chip is volatile: it needs constant power. Resseting CMOS battery will restore default BIOS settings. On modern motherboards the CMOS chip is integrated with the RTC (real-time clock) on the south bridge chipset.
 
-**Master Boot Record (MBR)**
+** MBR - Master Boot Record**
 _______
 
 MBR is the old standard for managing the partition in the hard disk. It is superseded by GPT. The MBR resides at the very beginning of the hard disk and it holds the information on how the logical partitions are organized in the storage device. In addition, the MBR also contains executable code that can scan the partitions for the active OS and load up the boot up code/procedure for the OS.
 
-The organization of the partition table in the MBR limits the maximum addressable storage space of a partitioned disk to 2 TiB (232 × 512 bytes).
+The organization of the partition table in the MBR limits the maximum addressable storage space of a partitioned disk to 2 TiB (232 × 512 bytes). *XXX: Are limits applied to a whole disk or to a separate partition?* 4 primary partitions per disk.
+
+Can not repair itself, boot data is stored in one place, if data is everwritten or corrupted - fail to boot.
 
 ![MBR](./Master-Boot-Record.webp)
 ![MBR](./MBR.png)
@@ -30,11 +32,45 @@ https://neosmart.net/wiki/mbr-boot-process/
 
 # UEFI - Unified Extensible Firmware Interface
 
+Spec for UEFI - https://uefi.org. Includes a disk partitioning scheme - GPT. 
+
 New type of BIOS that has several advantages over old one:
 
 * User friendly graphical UI with mouse
 * UEFI supports drive sizes upto 9 zettabytes, whereas BIOS only supports 2.2 terabytes
 * Secure Boot
+
+# GPR - GUID Partition Table
+
+* Supports upto 128 partitions per disk, with upto to 2^64*512 = 9.4 zettabytes = 9448928051 Gb.
+* Stores multiple copies of data across the disk
+* Can recover if corrupted, cyclic redundancy check (CRC) is used to determine if data is intact.
+
+**ESP - Extensible System Partition**
+_____________________________________
+
+ESP is the independent from OS partition which stores the UEFI boot loader, application and driver used by UEfI firmware. ESP is mandatory for Linux, Windows and MacOS.
+
+# Boot Loader
+
+* The boot loader is used to identify where the kernel of the operating system is located. 
+* For Linux b.l. is usually GRUB - Grand Unified Boot Loader. 
+* The final b.l.'s call is to load process ID 1 - systemd or initd.
+
+**Debian Bootstrap Process**
+____________________________
+
+1. UEFI
+
+2. Boot Loader (GRUB)
+
+Grub may stop and dispaly options for the user - what OS or kernel to load.
+
+3. Mini-Debian System
+
+Optional step used to load drivers needed to load main kernel from disk.
+
+4. Normal Debian System
 
 # Boot Procedure
 
@@ -59,3 +95,5 @@ https://www.freecodecamp.org/news/uefi-vs-bios/
 https://www.happyassassin.net/posts/2014/01/25/uefi-boot-how-does-that-actually-work-then/
 
 https://www.maketecheasier.com/differences-between-mbr-and-gpt/
+
+https://www.youtube.com/watch?v=BBUPc0aO5lw
