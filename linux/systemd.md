@@ -78,5 +78,57 @@ root      1242     1  0 06:57 ?        00:00:00 /usr/sbin/libvirtd
 >systemctl cat libvirtd
 ```
 
+### Unit search path
+
+* Systemd searches for units working from most specific to most general configuration
+  1. /etc/systemd/system : local configuration
+  2. /run/systemd/system : runtime configuration
+  3. /lib/systemd/system : distribution-wide configuration
+<br/><br/>
+* To override unit just place unit with the same name earlier in the sequence
+
+* To disable unit replace it with empty file or link to /dev/null
+
+### Service
+
+* service is a unit that controls daemon
+* name ends in .service
+* has [Service] section
+
+**Type of service**
+___________________
+* simple - (default) runs in background
+* oneshot - run once
+* forking
+
+### Target
+
+* Target is a Unit that lists dependencies on other Targets ???
+* Name ends in .target
+
+```shell
+>systemctl cat multi-user.target
+
+[Unit]
+Description=Multi-User System
+Documentation=man:systemd.special(7)
+Requires=basic.target
+Conflicts=rescue.service rescue.target
+After=basic.target rescue.service rescue.target
+AllowIsolate=yes
 ```
+
+**The default target**
+______________________
+
+At boot systemd starts default.target. Usually a symbolic link to the target desired. 
+
+```shell
+>ls -l /lib/systemd/system/default.target
+
+/lib/systemd/system/default.target -> graphical.target
 ```
+
+### Sources
+
+* https://www.youtube.com/watch?v=Ws6zR3rFXa4
