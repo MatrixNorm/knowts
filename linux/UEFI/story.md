@@ -117,7 +117,7 @@ sudo blkid | grep -v loop
 > In `search.fs_uuid 6f6abe60...6fe5 root hd1,gpt2` why both `gpt2` and UUID are present? `gpt2` means second partition sdb2, right? Then why there is also UUID of file system on this partition. It seems redundant. 
 
 
-Here is the state of UEFI Boot Manager:
+Here is the state of UEFI Boot Manager after changing BBS priorities. Note change in boot order.
 
 ```
 >efibootmgr -v
@@ -130,7 +130,7 @@ Boot0001  Hard Drive	BBS(HD,,0x0)..
 Boot0002* ubuntu	HD(1,GPT,e25ce0d9-4902-4438-8f1e-617ed649ab41,0x800,0xf3800)/File(\EFI\UBUNTU\SHIMX64.EFI)..BO
 ```
 
-Now, say I want to install Windows as well but afraid that it will mess up sda1 EFI partition. But having second ESP on sdb1 I can proceed without worries.
+Say I want to install Windows as well but afraid that it will mess up EFI partition. By having backup ESP on another disk I can proceed without worries. If Windows installer overrides one ESP another will be intact.
 
 Замечание про GUID раздела
 ==========================
