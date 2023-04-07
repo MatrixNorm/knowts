@@ -2,16 +2,23 @@
 
 PC motherboard has NVRAM (non-volatile random access memory) flash memory that stores UEFI's firmware code and durable state. Firmware code is supplied by motherboard vendor. Think about it as a very limited OS whose files live in NVRAM instead of SSD. Purpose of "UEFI OS" is to configure hardware and set up booting of real OS. Boomers are thinking about BIOS right now.
 
+> XXX UEFI is the same as EFI
+
 ## UEFI applications
 
 - executable *.efi files that can be run by UEFI firmware
 - resides on the ESP (EFI System Partition)
-- bootloader like GRUB or rEFInd is UEFI app
-- UEFI shell is also an app
+- bootloader like GRUB
+- boot manager like rEFInd
+- EFI shell is also an app
 
 ## ESP - EFI System Partition
 
  ESP is a partition with FAT32 filesystem that holds efi-executables like bootloader or shell and configuration files. Sane beaviour is to have no more than one ESP per disk.
+
+## GPT
+
+XXX
 
 ## EFI boot manager
 

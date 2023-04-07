@@ -21,8 +21,8 @@ The user file-creation mode mask (umask) is use to determine the file permission
 ## list all directories sizes in a current directory
 
 ```bash
-> du -h --max-depth=1 | sort -nr
+> du -h --max-depth=1 | sort -hr
 
 #with files as well
-> du -ah --max-depth=1 | sort -nr
+> du -ah --max-depth=1 | sort -hr
 ```

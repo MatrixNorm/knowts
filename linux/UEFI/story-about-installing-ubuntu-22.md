@@ -4,18 +4,18 @@ At first there had been single disk sda with two partitions:
 - /dev/sda1: ESP (EFI partition)
 - /dev/sda2: Ubuntu 18.04
 
-Afterward second disk sdb was connected and Ubuntu 22.04 installed on it. During installation from bootable USB stick following partitions were created:
+Then second disk sdb was connected and Ubuntu 22.04 installed on it. During installation from bootable USB stick following partitions were created:
 - /dev/sdb1: FAT32 for ESP. 
 - /dev/sdb2: ext4, mounted at /
 - /dev/sdb3: ext4, mounted at /home
 
-I intended to make separate EFI partitions for Ubuntu 22.04 on sdb1 and leave ESP on sda1 intact. Motivation was to not alter Ubuntu-18's bootloader. But I forgot to mount sdb1 at /boot/efi and installer dumped Ubuntu-22's GRUB on sda1. From the MAN page of efibootmgr:
+I intended to make separate EFI partitions for Ubuntu 22.04 on sdb1 and leave ESP on sda1 intact. Motivation was to not alter Ubuntu-18's bootloader. But I forgot to mount sdb1 at /boot/efi so installer dumped Ubuntu-22's GRUB on sda1. From the MAN page of efibootmgr:
 
 > An OS installer would call efibootmgr -c. This assumes that /boot/efi is your EFI System Partition, and is mounted at /dev/sda1.
 
 Anyway U-22 was installed and booted normally while U-18 failed to boot even though there was entry for it in the GRUB menu. I was able to fix this by tinkering with the GRUB config.
 
-Ok, now I can log-in U-18. Observe EFI boot manager variables:
+Ok, now I can login U-18. EFI boot manager variables:
 
 ```
 >efibootmgr -v
@@ -27,9 +27,7 @@ Boot0000* ubuntu	HD(1,GPT,5307826d-84e7-4497-89df-234a9b109f94,0x800,0xf3800)/Fi
 Boot0001  Hard Drive	BBS(HD,,0x0)/VenHw(5ce8128b-2cec-40f0-8372-80640e3dc858,0200)..GO...
 ```
 
-This are the records within UEFI Boot Manager that are stored in the NVRAM on the motherboard. They were added by UEFI firmware itself. 
-
-`5307...9f94` is PARTUUID of sda1 EFI partition (remember that UUID is an attribute of filesystem and PARTUUID - of partition):
+This are the records within UEFI Boot Manager that are stored in the NVRAM on the motherboard. They were added automatically by UEFI firmware itself. Apparently, EFI firmware scans disks. `5307...9f94` is PARTUUID of sda1 EFI partition (UUID is an attribute of filesystem within partition and PARTUUID - of partition itself):
 
 ```
 >sudo blkid | grep -v loop 
@@ -40,15 +38,15 @@ This are the records within UEFI Boot Manager that are stored in the NVRAM on th
 
 > What does `HD(1,` mean? Disk #1? Then why does numeration start from one and not from zero?
 
-> What is `BBS(HD,,0x0)` and this id `5ce8128b-2cec-40f0-8372-80640e3dc858`? It is all over the Internet so it has nothing to do with UUID/GUID on my particular computer.
+> What is `BBS(HD,,0x0)` and this id `5ce8128b-2cec-40f0-8372-80640e3dc858`? Same id is all over the Internet. Why does EFI added this record?
 
-# State of UEFI firmware
+# Boot state in UEFI firmware
 
-This is how BBS priorities option in UEFI looks so far:
+Computer may have multiple EFI partitions on a single disk or on multiple disk. EFI must know what partition it should try first, what second, etc.BBS priorities is a state in EFI firmware that allows selecting this order. This is how BBS priorities option in UEFI looks so far:
 
 ![BBS UEFI](./BBS1.jpg)
 
-Although there are two EFI partitions (sda1 on SATA1, sdb1 on SATA2) BBS contains only one item because sdb1 partition contains no EFI executables and UEFI firmware sees that.
+Although there are two EFI partitions (sda1 on SATA1, sdb1 on SATA2) BBS contains only one item because sdb1 partition contains no EFI executables. EFI firmware detects that and leaves sdb1 out.
 
 Now, what will happen if to copy data from sda1 to sdb1?
 
@@ -122,7 +120,7 @@ Here is the state of UEFI Boot Manager after changing BBS priorities. Note chang
 ```
 >efibootmgr -v
 
-BootCurrent: 0004
+BootCurrent: 0002
 Timeout: 1 seconds
 BootOrder: 0002,0000,0001
 Boot0000* ubuntu	HD(1,GPT,5307826d-84e7-4497-89df-234a9b109f94,0x800,0xf3800)/File(\EFI\UBUNTU\SHIMX64.EFI)

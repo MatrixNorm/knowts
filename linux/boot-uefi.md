@@ -13,7 +13,6 @@ The organization of the partition table in the MBR limits the maximum addressabl
 
 Can not repair itself, boot data is stored in one place, if data is everwritten or corrupted - fail to boot.
 
-![MBR](./Master-Boot-Record.webp)
 ![MBR](./MBR.png)
 ![MBR vs GPT](./mbr-vs-gpt.png)
 
