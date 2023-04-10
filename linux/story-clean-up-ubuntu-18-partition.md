@@ -3,7 +3,7 @@ $ lsblk  /dev/sda
 NAME   MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS
 sda      8:0    0 238,5G  0 disk 
 ├─sda1   8:1    0   487M  0 part 
-└─sda2   8:2    0  67,1G  0 part /tmp/u18
+└─sda2   8:2    0  67,1G  0 part
 
 $ mkdir /tmp/u18
 $ sudo mount /dev/sda2 /tmp/u18
@@ -72,11 +72,9 @@ $ sudo du -hs usr/lib/* | sort -hr | head -n 9
 После чистки:
 
 ```
-$lsblk -o NAME,SIZE,FSUSED /dev/sda
-NAME     SIZE FSUSED
-sda    238,5G 
-├─sda1   487M 
-└─sda2  67,1G  38,2G
+$ lsblk -o NAME,SIZE,FSUSED /dev/sda2
+NAME  SIZE FSUSED
+sda2 67,1G  38,2G
 ```
 
 ### Resize partion
@@ -137,18 +135,24 @@ menuentry 'Ubuntu 18.04 /dev/sda2' {
         ...
         set root='hd0,gpt2'
         if [ x$feature_platform_search_hint = xy ]; then
-          search --no-floppy --fs-uuid --set=root --hint-bios=hd0,gpt2 --hint-efi=hd0,gpt2 --hint-baremetal=ahci0,gpt2  b8ce0513-b0be-43cb-ba50-bbefb37072a2
+          search --no-floppy --fs-uuid --set=root 
+                 --hint-bios=hd0,gpt2 --hint-efi=hd0,gpt2 
+                 --hint-baremetal=ahci0,gpt2  b8ce0513-...72a2
         else
-          search --no-floppy --fs-uuid --set=root b8ce0513-b0be-43cb-ba50-bbefb37072a2
+          search --no-floppy --fs-uuid 
+                 --set=root b8ce0513-...72a2
         fi
-        linux /boot/vmlinuz-4.19.236-0419236-generic root=UUID=b8ce0513-b0be-43cb-ba50-bbefb37072a2 ro
+        linux /boot/vmlinuz-4.19.236-0419236-generic 
+              root=UUID=b8ce0513-...72a2 ro
         initrd /boot/initrd.img-4.19.236-0419236-generic
 }
 
 ### END /etc/grub.d/40_custom ###
 ```
 
-Вариант А, как уменьшить раздел sda2:
+### Resize partition
+
+Вариант А (примитивный), как уменьшить раздел sda2:
 
 1. скопировать содержимое раздела в директорию на другом диске
 2. удалить раздел
@@ -162,4 +166,9 @@ menuentry 'Ubuntu 18.04 /dev/sda2' {
 1. исправить конфиг GRUB-а руками (некрасиво)
 2. изменить UUID (via tune2fs) и PARTUUD (via gdisk), вернув им старые значения (это лучше)
 
-Вариант Б, как уменьшить раздел sda2:
+Вариант Б (сисадминский), как уменьшить раздел sda2:
+
+1. с resize2fs уменьшить файловую систему на разделе
+2. с parted (gdisk, fdisk) уменьшить размер самого раздела
+
+Вариант В (юзерский): ипрользовать GUI app Gparted.
