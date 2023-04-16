@@ -25,4 +25,5 @@ The user file-creation mode mask (umask) is use to determine the file permission
 
 #with files as well
 > du -ah --max-depth=1 | sort -hr
+> du -hs * | sort -hr | head -n 9
 ```
