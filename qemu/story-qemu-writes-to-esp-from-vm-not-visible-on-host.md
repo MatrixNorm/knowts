@@ -1,4 +1,6 @@
 
+### XXX same problem is with fake block device in RAM
+
 ```
 $ sudo gdisk /dev/sdd
 Command (? for help): p
@@ -16,20 +18,20 @@ sdd      8:48   1  28,9G  0 disk
 ```
 
 ```
-sudo qemu-system-x86_64 \
+$ sudo qemu-system-x86_64 \
     -cpu host -enable-kvm -smp 2 -m 2G \
     -bios /usr/share/qemu/OVMF.fd \
     -hda /dev/sdd
 ```
 
 
-Pres ESC in Qemu --> enter UEFI setup. Remove network boot options.
+Press ESC in Qemu --> enter UEFI setup. Remove network boot options.
 
 File `NvVars` is written to sdd1 that is visible from Qemu's EFI shell:
 
 ```
-Shell>fs0:
-FS0:\>ls
+(guest)Shell>fs0:
+(guest)FS0:\>ls
 05/07/2023 08:34 11,741 NvVars
 ```
 
@@ -42,3 +44,13 @@ $ ll /tmp/efi/
 -rwxr-xr-x  1 root root  12K мая  7 11:34 NvVars
 ```
 
+### Or
+
+```
+$ sudo qemu-system-x86_64 -cpu host -enable-kvm -smp 2 -m 2G -bios /usr/share/qemu/OVMF.fd -hda /dev/sde -cdrom ~/ISOs/archlinux-2023.04.01-x86_64.iso -boot d
+```
+
+```
+(guest)$ mkdir /tmp/foo 
+(guest)$ mount /dev/sda1 /tmp/foo
+```
