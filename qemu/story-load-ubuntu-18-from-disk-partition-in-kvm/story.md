@@ -52,4 +52,12 @@ $ ll /tmp/sda2/boot/grub/grub.cfg
 ls: cannot access '/tmp/sda2/boot/grub/grub.cfg': No such file or directory
 ```
 
-Поместил туда файл, но qemu его не видит. Та же ситуация, то и с шлешкой и с лже-диском в RAM.
+Поместил туда файл, но qemu его не видит. Та же ситуация, то и с флешкой и с лже-диском в RAM. sync не помогает, umount+mount не помогает. 
+
+Помогла только перезагрузка.
+
+* The -hda option emulates a PATA disk. ???
+
+# Слом
+
+После всех этих манипуляций убунту-18 перестала грузиться на железе. Помогла команда `fsck`, применённая к sda1 и sda2.
