@@ -83,7 +83,9 @@ error: /boot/vmlinuz... has invalid signature --> choose another UEFI firmware w
     
     -machine pc-q35-6.2,usb=off,vmport=off,dump-guest-core=off,pflash0=libvirt-pflash0-format,pflash1=libvirt-pflash1-format,memory-backend=pc.ram 
     -accel kvm 
-    -cpu host,migratable=on -m 6096 -object {"qom-type":"memory-backend-ram","id":"pc.ram","size":6392119296} 
+    -cpu host,migratable=on 
+    -m 6096 
+    -object {"qom-type":"memory-backend-ram","id":"pc.ram","size":6392119296} 
     -overcommit mem-lock=off 
     -smp 2,sockets=2,cores=1,threads=1 
     -uuid d23d2091-75d6-4929-95e1-034025613206 
