@@ -17,3 +17,22 @@ $ virsh list --all
 
 How to ssh into guest?
 ----------------------
+
+Узнать адрес гостя: посмотреть в virt-manager в параметрах гостя или зайти в гости и выполнить команду `ip addr`. В моём случае ip гостя 192.168.122.233.
+
+На госте есть ssh сервер:
+```
+(host)$ nc 192.168.122.233 22
+SSH-2.0-OpenSSH_9.0p1 Ubuntu-1ubuntu8
+```
+
+```
+(host)$ ssh bublik@192.168.122.233
+#input password
+```
+
+And without password: add host's public key to guest.
+
+## Shared folder
+
+Make host's folder `/mnt/hdd/programming/nodejs` shared with guest.
