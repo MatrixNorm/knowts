@@ -1,3 +1,5 @@
+# LXD container is better
+
 ## Choose Linux distribution
 
 Ubuntu или Debian, чтобы было всё знакомо. Графика не нужна. Ubuntu Server подойдёт.
