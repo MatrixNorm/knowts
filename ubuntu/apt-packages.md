@@ -56,7 +56,7 @@ Depends: libapparmor1 (>= 2.6~devel), libc6 (>= 2.17), libreadline7 (>= 6.0), li
 ## How can I list all files which HAVE BEEN installed by an APT package?
 
 ```
- dpkg -L gcc
+$ dpkg -L gcc
 /.
 /usr
 /usr/bin
@@ -65,27 +65,50 @@ Depends: libapparmor1 (>= 2.6~devel), libc6 (>= 2.17), libreadline7 (>= 6.0), li
 ...
 ```
 
+https://serverfault.com/questions/96964/list-of-files-installed-from-apt-package
+
+- Keep in mind that while this will get you most of what you need it will not give you everything. Several packages create configuration files as part of their setup scripts. These files will not be reported by dpkg.
+
+- Conffiles of a package (if any) are listed by command dpkg --status $package. For the reverse operation use grep $filename /var/lib/dpkg/info/*.conffiles
+
+## Given a file, which package provides it?
+
+```
+$ dpkg -S /usr/include/malloc.h 
+libc6-dev:amd64: /usr/include/malloc.h
+```
+
 ## How can I list all files which WILL be installed by an APT package?
 
 1. simulate install to see what packages will be installed
 
 ```
-$ apt-get install -s build-essential 
+$ apt-get install -s ocaml
+...
 The following additional packages will be installed:
-  g++ g++-11 libstdc++-11-dev
+  ledit libncurses-dev libncurses5-dev ocaml-base ocaml-compiler-libs ocaml-interp ocaml-man
 Suggested packages:
-  g++-multilib g++-11-multilib gcc-11-doc libstdc++-11-doc
+  ncurses-doc ocaml-doc elpa-tuareg
 The following NEW packages will be installed:
-  build-essential g++ g++-11 libstdc++-11-dev
-0 upgraded, 4 newly installed, 0 to remove and 270 not upgraded.
-Inst libstdc++-11-dev (11.3.0-1ubuntu1~22.04.1 Ubuntu:22.04/jammy-updates, Ubuntu:22.04/jammy-security [amd64])
-Inst g++-11 (11.3.0-1ubuntu1~22.04.1 Ubuntu:22.04/jammy-updates, Ubuntu:22.04/jammy-security [amd64])
-Inst g++ (4:11.2.0-1ubuntu1 Ubuntu:22.04/jammy [amd64])
-Inst build-essential (12.9ubuntu3 Ubuntu:22.04/jammy [amd64])
-Conf libstdc++-11-dev (11.3.0-1ubuntu1~22.04.1 Ubuntu:22.04/jammy-updates, Ubuntu:22.04/jammy-security [amd64])
-Conf g++-11 (11.3.0-1ubuntu1~22.04.1 Ubuntu:22.04/jammy-updates, Ubuntu:22.04/jammy-security [amd64])
-Conf g++ (4:11.2.0-1ubuntu1 Ubuntu:22.04/jammy [amd64])
-Conf build-essential (12.9ubuntu3 Ubuntu:22.04/jammy [amd64])
+  ledit libncurses-dev libncurses5-dev ocaml ocaml-base ocaml-compiler-libs ocaml-interp ocaml-man
 ```
 
-2. ??? apt-file
+2. for each package use `apt-file list`
+
+```
+$ apt-file list ledit
+ledit: /usr/bin/ledit                     
+ledit: /usr/share/bash-completion/completions/ledit
+ledit: /usr/share/doc/ledit/README
+ledit: /usr/share/doc/ledit/README.Debian
+ledit: /usr/share/doc/ledit/changelog.Debian.gz
+ledit: /usr/share/doc/ledit/copyright
+ledit: /usr/share/man/man1/ledit.1.gz
+```
+
+## XXX
+
+W: An error occurred during the signature verification. The repository is not updated and the previous index files will be used. GPG error: https://repo.yandex.ru/yandex-browser/deb stable InRelease: The following signatures couldn't be verified because the public key is not available: NO_PUBKEY 60B9CD3A083A7A9A
+N: Skipping acquire of configured file 'main/binary-i386/Packages' as repository 'https://brave-browser-apt-release.s3.brave.com stable InRelease' doesn't support architecture 'i386'
+W: Failed to fetch https://repo.yandex.ru/yandex-browser/deb/dists/stable/InRelease  The following signatures couldn't be verified because the public key is not available: NO_PUBKEY 60B9CD3A083A7A9A
+

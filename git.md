@@ -1,3 +1,7 @@
+### Delete file from history and remote repo
+
+XXX a.out
+
 ### Add to .gitignore file already in version control
 
 ### GIT_SSH_COMMAND environment variable

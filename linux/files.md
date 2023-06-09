@@ -36,3 +36,39 @@ du -hs * | sort -hr | head -n 9
 # with dir path
 du -hs /var/* | sort -hr | head -n 9
 ```
+
+`-x, --one-file-system` - skip directories on different file systems
+
+```bash
+# without -x flag du counts dirs on different file systems
+
+$ sudo du -hs -t100M /* | sort -hr
+303G	/mnt
+11G	/home
+7,9G	/usr
+7,5G	/var
+7,1G	/snap
+892M	/opt
+212M	/boot
+
+$ findmnt 
+TARGET                               SOURCE           FSTYPE
+/                                    /dev/sdb2        ext4          
+├─/snap/firefox/2710                 /dev/loop6       squashfs      
+├─/snap/firefox/2667                 /dev/loop5       squashfs      
+├─/home                              /dev/sdb3        ext4          
+├─/boot/efi                          /dev/sdb1        vfat
+└─/mnt/hdd
+```
+
+```bash
+# still includes /home for some reason
+
+$ sudo du -hsx -t100M /* | sort -hr
+11G	/home
+7,9G	/usr
+7,5G	/var
+892M	/opt
+206M	/boot
+```
+
