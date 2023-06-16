@@ -11,3 +11,5 @@ grep * .* -e 'cargo' -d skip --exclude=.zsh_history
 ```bash
 grep -rl . -e 'cargo' --exclude=.zsh_history --exclude-dir={.cache,.local}
 ```
+
+# find
