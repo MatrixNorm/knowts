@@ -73,3 +73,69 @@ $ cat /proc/self/mountinfo | grep cgroup
 That’s the issue. We’ve seen it occasionally but haven’t yet found the root cause for this.
 It’s a cgroup1 controller mounted on top of a cgroup2 tree, that’s a very bad idea and causes a bunch of issues. A temporary fix is to run `umount -l /sys/fs/cgroup/net_cls` but that will not survive a reboot.
 
+https://discuss.linuxcontainers.org/t/help-help-help-cgroup2-related-issue-on-ubuntu-jammy-with-mullvad-and-privateinternetaccess-vpn/14705
+
+```
+$ grep cgroup /proc/mounts 
+cgroup2 /sys/fs/cgroup cgroup2 rw,nosuid,nodev,noexec,relatime 0 0
+none /sys/fs/cgroup/net_cls cgroup rw,relatime,net_cls 0 0
+```
+
+I had the same issue, and in my case the net_cls V1 cgroup is being mounted by pia-daemon, which is part of the PrivateInternetAccess VPN:
+
+```
+[linux_cgroup][daemon/src/linux/linux_cgroup.cpp:23][warning] The directory "/sys/fs/cgroup/net_cls" is not found, but is required by the split tunnel feature. Attempting to create.
+[linux_cgroup][daemon/src/linux/linux_cgroup.cpp:30][info] Successfully created "/sys/fs/cgroup/net_cls"
+```
+
+I’ll disable the “Split tunnel” feature, that I wasn’t actively using anyway, and hopefully this will go away for good.
+
+### login into container as a non-root user
+
+По-умолчанию логинится рутом
+
+```
+$ lxc exec nodejs bash
+root@nodejs:~#
+```
+
+В контейнере есть юзер ubuntu
+
+```
+root@nodejs:~# cat /etc/passwd
+ubuntu:x:1000:1000:Ubuntu:/home/ubuntu:/bin/bash
+```
+
+https://discuss.linuxcontainers.org/t/logging-in-a-container-as-a-normal-user/190
+
+```
+$ lxc exec nodejs -- su ubuntu
+ubuntu@nodejs:$
+```
+
+### ssh into container
+
+```
+$ lxc exec nodejs bash
+root@nodejs:~# su ubuntu
+root@nodejs:~# nano ~/.ssh/authorized_keys
+# paster host public key to .ssh/authorized_keys
+# of ubuntu user inside container
+```
+
+### How do I copy a file/directory from host into a LXD container?
+
+to copy file.txt from host to /home/ubuntu/ directory of the container `cntr`
+
+`lxc file push file.txt cntr/home/ubuntu/file.txt`
+
+to copy a directory from host to container, use -r
+
+`lxc file push -r directory/ cntr/home/ubuntu/`
+
+to copy file from container to host, use pull
+
+`lxc file pull cntr/home/ubuntu/file.txt .`
+
+### Visual Studio Code Remote - SSH
+
