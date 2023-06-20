@@ -75,6 +75,8 @@ It’s a cgroup1 controller mounted on top of a cgroup2 tree, that’s a very ba
 
 https://discuss.linuxcontainers.org/t/help-help-help-cgroup2-related-issue-on-ubuntu-jammy-with-mullvad-and-privateinternetaccess-vpn/14705
 
+https://github.com/pia-foss/desktop/issues/50
+
 ```
 $ grep cgroup /proc/mounts 
 cgroup2 /sys/fs/cgroup cgroup2 rw,nosuid,nodev,noexec,relatime 0 0
@@ -88,14 +90,17 @@ I had the same issue, and in my case the net_cls V1 cgroup is being mounted by p
 [linux_cgroup][daemon/src/linux/linux_cgroup.cpp:30][info] Successfully created "/sys/fs/cgroup/net_cls"
 ```
 
-I’ll disable the “Split tunnel” feature, that I wasn’t actively using anyway, and hopefully this will go away for good.
+I’ll disable the "Split tunnel" feature, that I wasn’t actively using anyway, and hopefully this will go away for good.
+
+How to disable "Split tunnel" feature of PIA
+--------------------------------------------
 
 ### login into container as a non-root user
 
 По-умолчанию логинится рутом
 
 ```
-$ lxc exec nodejs bash
+$ lxc exec mycontainer bash
 root@nodejs:~#
 ```
 
@@ -109,8 +114,11 @@ ubuntu:x:1000:1000:Ubuntu:/home/ubuntu:/bin/bash
 https://discuss.linuxcontainers.org/t/logging-in-a-container-as-a-normal-user/190
 
 ```
-$ lxc exec nodejs -- su ubuntu
+$ lxc exec mycontainer -- su ubuntu
 ubuntu@nodejs:$
+
+# or
+$ lxc exec mycontainer -- sudo --user ubuntu --login
 ```
 
 ### ssh into container

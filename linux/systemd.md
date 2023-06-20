@@ -1,12 +1,13 @@
 
 ### systemd unit
 
-> item that is managed by sytemd
+* item that is managed by systemd
 
-> any resource sytemd knows how to operate on and manage
+* any resource sytemd knows how to operate on and manage
 
-List available unit types:
-```shell
+List available unit types
+
+```
 > systemctl -t help
 
 service: ssh, web-server (apache, nginx)
@@ -26,7 +27,7 @@ scope
 
 List units that systemd currently has in memory. This includes units that are either referenced directly or through a dependency, units that are pinned by applications programmatically, or units that were active in the past and have failed.
 
-```bash
+```
 >systemctl list-units --type=service
 # or
 >systemctl --type=service
@@ -34,14 +35,14 @@ List units that systemd currently has in memory. This includes units that are ei
 
 When listing units with list-units, also show inactive units and units which are following other units.
 
-```bash
+```
 >systemctl list-units --type=service --all
 # or
 >systemctl --type=service --all
 ```
 
 ### get service status
-```bash
+```
 > systemctl status libvirtd
 
 ● libvirtd.service - Virtualization daemon
@@ -53,18 +54,17 @@ When listing units with list-units, also show inactive units and units which are
            https://libvirt.org
  Main PID: 1242 (libvirtd)
     Tasks: 19 (limit: 32768)
-   CGroup: /system.slice/libvirtd.service
-           ├─1242 /usr/sbin/libvirtd
-           ├─2847 /usr/sbin/dnsmasq --conf-file=/var/lib/libvirt/dnsmasq/default.conf --leasefile-ro --dhcp-script=/usr/lib/libvirt/libvirt_l
-           └─2850 /usr/sbin/dnsmasq --conf-file=/var/lib/libvirt/dnsmasq/default.conf --leasefile-ro --dhcp-script=/usr/lib/libvirt/libvirt_l
+   CGroup: ...
 ```
 
 ### a way to determine the systemd unit that caused the creation of a specific process
 
-```shell
+```
+# find pid of process
 > ps -ef | grep libvirtd
 root      1242     1  0 06:57 ?        00:00:00 /usr/sbin/libvirtd
 
+# and then
 > systemctl status 1242
 ● libvirtd.service - Virtualization daemon
    Loaded: loaded (/lib/systemd/system/libvirtd.service; enabled; vendor preset: enabled)
@@ -74,7 +74,7 @@ root      1242     1  0 06:57 ?        00:00:00 /usr/sbin/libvirtd
 
 ### view service unit file
 
-```shell
+```
 >systemctl cat libvirtd
 ```
 
@@ -106,7 +106,7 @@ ___________________
 * Target is a Unit that lists dependencies on other Targets ???
 * Name ends in .target
 
-```shell
+```
 >systemctl cat multi-user.target
 
 [Unit]
@@ -123,7 +123,7 @@ ______________________
 
 At boot systemd starts default.target. Usually a symbolic link to the target desired. 
 
-```shell
+```
 >ls -l /lib/systemd/system/default.target
 
 /lib/systemd/system/default.target -> graphical.target
