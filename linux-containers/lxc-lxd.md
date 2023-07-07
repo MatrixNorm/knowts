@@ -147,3 +147,7 @@ to copy file from container to host, use pull
 
 ### Visual Studio Code Remote - SSH
 
+XXX
+
+### Get list of exposed ports
+
