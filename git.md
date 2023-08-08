@@ -1,3 +1,18 @@
+### merge conflict
+
+```
+> git merge upstream/main
+> git status
+
+deleted by them: packages/react-router-native/examples/Recursive.js
+both modified:   packages/react-router-native/package.json
+added by us:     packages/react-router/HistoryContext.js
+```
+
+deleted by them
+---------------
+
+
 ### github fork repo
 
 ### Delete file from history and remote repo
