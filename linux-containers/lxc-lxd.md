@@ -1,13 +1,7 @@
 
 ## LXD vs LXC
 
-LXD is a container manager, it runs Linux Containers - LXC.
-
-LXC utilizes kernel's cgroups and namespaces.
-
-## LXC vs Docker containder
-
-LXCs are more similar to VM unlike docker containters.
+LXD is a container manager, it runs Linux Containers - LXC. LXC utilizes kernel's cgroups and namespaces.
 
 ## Installation and initialization
 
@@ -20,11 +14,10 @@ Before you can create a LXD instance, you must configure and initialize LXD.
 
 ZFS storage driver
 ------------------
-ZFS is major overkill.
+ZFS is major overkill. Not gonna use it.
 
-BTRFS
+BTRFS storage driver
 -----
-
 ```
 $ apt-cache show btrfs-progs
 This package contains utilities (mkfs, fsck) used to work with btrfs
@@ -44,6 +37,9 @@ $ lxc storage list
 $ sudo blkid /dev/sda3
 /dev/sda3: LABEL="default" UUID="1cec82ba-f4ae-4d04-80f8-e39367cef4b2" TYPE="btrfs"
 ```
+
+cgroups conflict
+----------------
 
 ```
 $ lxc list
@@ -97,7 +93,7 @@ How to disable "Split tunnel" feature of PIA
 
 ### login into container as a non-root user
 
-По-умолчанию логинится рутом
+По-умолчанию логинится в рута
 
 ```
 $ lxc exec mycontainer bash
@@ -145,9 +141,20 @@ to copy file from container to host, use pull
 
 `lxc file pull cntr/home/ubuntu/file.txt .`
 
+### rename container
+
+`>lxc move nodejs nodejs-flow`
+
+### container autostart
+
+to disable autostart for existing container: 
+* `lxc config set nodejs boot.autostart=false`
+
+how to change the default setting in LXD so that any newly created container does not autostart:
+* `lxc profile set default boot.autostart=false`
+
 ### Visual Studio Code Remote - SSH
 
-XXX
 
 ### Get list of exposed ports
 
