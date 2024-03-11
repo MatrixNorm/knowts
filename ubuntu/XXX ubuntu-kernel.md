@@ -14,24 +14,26 @@ sudo update-grub
 ### install kernel of specific version
 
 ```console
-mkdir kernels/4.19.236
-cd kernels/4.19.236
+mkdir foo
+cd foo
 ```
 
-download into this folder deb files from https://kernel.ubuntu.com/~kernel-ppa/mainline/v4.19.236/ :
+download into this folder deb files from https://kernel.ubuntu.com/~kernel-ppa/mainline/VERSION-NUMBER/:
 
-- amd64/linux-headers-4.19.236-0419236-generic_4.19.236-0419236.202203231010_amd64.deb
+- amd64/linux-headers-VERSION-NUMBER_amd64.deb
+- amd64/linux-headers-VERSION-NUMBER_all.deb
+- amd64/linux-image-VERSION-NUMBER_amd64.deb
+- amd64/linux-modules-VERSION-NUMBER_amd64.deb
 
-- amd64/linux-headers-4.19.236-0419236_4.19.236-0419236.202203231010_all.deb
-
-- amd64/linux-image-unsigned-4.19.236-0419236-generic_4.19.236-0419236.202203231010_amd64.deb
-
-- amd64/linux-modules-4.19.236-0419236-generic_4.19.236-0419236.202203231010_amd64.deb
-
-Install them all
+Install them all:
 
 ```console
 sudo dpkg -i *.deb
+```
+
+Update Grub and reboot:
+
+```console
 sudo update-grub
 sudo reboot
 ```
