@@ -1,21 +1,22 @@
 
 ### Get all groups an user belongs to
-```shell
->id user_name
+```
+$ id user_name
 ```
 
-To check which users are in the kvm group, use
->grep kvm /etc/group
-kvm:x:135:
+### To check which users are in the kvm group, use
+```
+$ grep kvm /etc/group
+=> kvm:x:135:
 
->whoami
+$ whoami
+=> me
 
-me
->sudo adduser me kvm
-
->grep kvm /etc/group
+$ sudo adduser me kvm
+=> grep kvm /etc/group
 
 kvm:x:135:me
+```
 
 ### What is `/etc/group-` file?
 
