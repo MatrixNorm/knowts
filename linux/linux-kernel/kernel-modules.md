@@ -1,3 +1,14 @@
+## find all installed modules
+
+```
+$ find /lib/modules/$(uname -r) -type f -name '*.ko*'
+```
+
+## list loadded modules
+
+> `lsmod` is a trivial program which nicely formats the contents of the /proc/modules, 
+showing what kernel modules are currently loaded
+
 ## why there are modules loaded not being used?
 
 > I noticed that there are around 20 modules for either hardware that I don't have or they are not being used for anything, I checked /etc/modules-load.d/ and /etc/modprobe.d/ and both directory are empty, I wanted to see what was loading them
