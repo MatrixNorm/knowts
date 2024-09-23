@@ -1,5 +1,33 @@
-# Detecting disks
+# Filesystem label rename (LXD, LXD, filesystem label)
 
+>sudo btrfs filesystem label /dev/sda3 "LXD-Pool"
+lsblk показывает прежнее значение `default` метки
+>lsblk -o NAME,LABEL
+sda    
+├─sda1 
+├─sda2 ubuntu18
+├─sda3 default
+└─sda4 
+>ls -l /dev/disk/by-label/
+lrwxrwxrwx 1 root root 10 сен 22 18:37 default -> ../../sda3
+lrwxrwxrwx 1 root root 10 сен 22 16:02 ubuntu18 -> ../../sda2
+lrwxrwxrwx 1 root root 10 сен 22 09:36 ubuntu22root -> ../../sdb2
+
+https://unix.stackexchange.com/questions/692056/how-to-update-refresh-changed-partlabels-as-reported-by-lsblk
+
+>sudo udevadm trigger
+>lsblk -o NAME,LABEL
+sda    
+├─sda1 
+├─sda2 ubuntu18
+├─sda3 LXD-Pool
+└─sda4
+
+ACHTUNG! После перезагрузки вернулось старое значение `default`. Видимо LXD само прописывает метку для файловой системы,
+согласно названию склада. Причём переименование склада в LXD не рекомендуется: 
+https://discuss.linuxcontainers.org/t/rename-storage-name-config/1886/4
+
+# Detecting disks
 
 ```bash
 > lsblk
